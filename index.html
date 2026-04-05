@@ -227,9 +227,16 @@
       padding: 3rem;
     }
 
-    .detail-poster {
+    .detail-poster-section {
       flex: 1;
       min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .detail-poster {
+      width: 100%;
     }
 
     .detail-poster img {
@@ -237,6 +244,37 @@
       border-radius: 32px;
       box-shadow: 0 25px 40px rgba(0,0,0,0.4);
       border: 2px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .watch-btn-below-poster {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .gdrive-btn-poster {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(95deg, #7c3aed, #a855f7);
+      border: none;
+      padding: 1rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      box-shadow: 0 8px 18px rgba(124,58,237,0.4);
+      width: 100%;
+    }
+
+    .gdrive-btn-poster:hover {
+      transform: scale(1.02);
+      background: linear-gradient(95deg, #8b5cf6, #c084fc);
+      box-shadow: 0 12px 28px rgba(139,92,246,0.6);
     }
 
     .detail-info {
@@ -258,30 +296,12 @@
       font-size: 1.2rem;
       line-height: 1.7;
       color: #e2e8ff;
-      margin: 1.5rem 0 2rem;
+      margin: 1.5rem 0;
     }
 
+    /* Optional button in info section (hidden, kept for reference) */
     .gdrive-btn-large {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: linear-gradient(95deg, #7c3aed, #a855f7);
-      border: none;
-      padding: 1rem 2.5rem;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: white;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      box-shadow: 0 8px 18px rgba(124,58,237,0.4);
-    }
-
-    .gdrive-btn-large:hover {
-      transform: scale(1.05);
-      background: linear-gradient(95deg, #8b5cf6, #c084fc);
-      box-shadow: 0 12px 28px rgba(139,92,246,0.6);
+      display: none;
     }
 
     .empty-state {
@@ -331,6 +351,9 @@
       .detail-title {
         font-size: 2rem;
       }
+      .detail-poster-section {
+        min-width: 100%;
+      }
     }
   </style>
 </head>
@@ -349,7 +372,6 @@
 </nav>
 
 <main id="mainContent">
-  <!-- Dynamic content will be injected here -->
   <div class="container">
     <div class="loader">✨ loading cinematic experience ...</div>
   </div>
@@ -362,15 +384,13 @@
 <script>
   // ---------- GLOBAL STATE ----------
   let allMovies = [];
-  let currentPage = 'home'; // 'home' or 'detail'
+  let currentPage = 'home';
   let currentMovieId = null;
 
-  // DOM elements
   const mainContent = document.getElementById('mainContent');
   const searchInput = document.getElementById('searchInput');
   const searchWrapper = document.getElementById('searchWrapper');
 
-  // Helper: parse imp.txt line by line
   function parseMovieLine(line) {
     line = line.trim();
     if (line === "") return null;
@@ -392,7 +412,6 @@
     }
   }
 
-  // fetch imp.txt and parse movies
   async function loadMoviesFromFile() {
     try {
       const response = await fetch('imp.txt');
@@ -416,7 +435,6 @@
     }
   }
 
-  // Render homepage with grid
   function renderHomePage(moviesArray) {
     if (!moviesArray.length) {
       mainContent.innerHTML = `
@@ -447,7 +465,6 @@
       </div>
     `;
 
-    // Attach click handlers to navigate to detail page
     const cards = document.querySelectorAll('.movie-card');
     cards.forEach((card, idx) => {
       card.addEventListener('click', () => {
@@ -456,16 +473,13 @@
       });
     });
 
-    // Show/hide search bar based on page
     if (searchWrapper) searchWrapper.style.display = 'flex';
   }
 
-  // Navigate to full movie detail page (replaces homepage content)
   function navigateToDetail(movie, movieId) {
     currentMovieId = movieId;
     currentPage = 'detail';
     
-    // Hide search bar on detail page
     if (searchWrapper) searchWrapper.style.display = 'none';
     
     const safePoster = movie.posterUrl && movie.posterUrl.trim() !== "" ? movie.posterUrl : "https://via.placeholder.com/500x750?text=Poster+Missing";
@@ -477,22 +491,25 @@
         </button>
         <div class="movie-detail-card">
           <div class="detail-content">
-            <div class="detail-poster">
-              <img src="${escapeHtml(safePoster)}" alt="${escapeHtml(movie.title)} poster" onerror="this.onerror=null;this.src='https://via.placeholder.com/500x750?text=Poster+Missing'">
+            <div class="detail-poster-section">
+              <div class="detail-poster">
+                <img src="${escapeHtml(safePoster)}" alt="${escapeHtml(movie.title)} poster" onerror="this.onerror=null;this.src='https://via.placeholder.com/500x750?text=Poster+Missing'">
+              </div>
+              <div class="watch-btn-below-poster">
+                <a href="${escapeHtml(movie.gdriveLink)}" target="_blank" rel="noopener noreferrer" class="gdrive-btn-poster">
+                  🎬 Watch / Download on Google Drive
+                </a>
+              </div>
             </div>
             <div class="detail-info">
               <h1 class="detail-title">${escapeHtml(movie.title)}</h1>
               <p class="detail-description">${escapeHtml(movie.description)}</p>
-              <a href="${escapeHtml(movie.gdriveLink)}" target="_blank" rel="noopener noreferrer" class="gdrive-btn-large">
-                🎬 Watch / Download on Google Drive
-              </a>
             </div>
           </div>
         </div>
       </div>
     `;
     
-    // Add back button functionality
     const backBtn = document.getElementById('backToHomeBtn');
     if (backBtn) {
       backBtn.addEventListener('click', () => {
@@ -500,29 +517,20 @@
       });
     }
     
-    // Update URL without reload (optional)
     window.history.pushState({ page: 'detail', movieId: movieId }, '', `?movie=${encodeURIComponent(movie.title)}`);
   }
 
-  // Navigate back to homepage
   function navigateToHome() {
     currentPage = 'home';
     currentMovieId = null;
     
-    // Show search bar again
     if (searchWrapper) searchWrapper.style.display = 'flex';
-    
-    // Clear search input
     if (searchInput) searchInput.value = '';
     
-    // Re-render homepage with current filtered movies
     renderHomePage(allMovies);
-    
-    // Update URL
     window.history.pushState({ page: 'home' }, '', window.location.pathname);
   }
 
-  // Filter movies based on search (only works on homepage)
   function applySearchFilter() {
     if (currentPage !== 'home') return;
     
@@ -546,11 +554,8 @@
     });
   }
 
-  // Handle browser back/forward buttons
   function handlePopState(event) {
     if (event.state && event.state.page === 'detail') {
-      // If we have a stored movie, but we need to restore detail view
-      // For simplicity, reload from current movieId
       if (currentMovieId !== null && allMovies[currentMovieId]) {
         navigateToDetail(allMovies[currentMovieId], currentMovieId);
       } else {
@@ -561,7 +566,6 @@
     }
   }
 
-  // Check URL params on load
   function checkUrlForMovie() {
     const urlParams = new URLSearchParams(window.location.search);
     const movieTitle = urlParams.get('movie');
@@ -575,7 +579,6 @@
     return false;
   }
 
-  // ---------- INITIALIZE APP ----------
   async function init() {
     const movies = await loadMoviesFromFile();
     if (movies.length === 0) {
@@ -590,21 +593,17 @@
     
     allMovies = movies;
     
-    // Check if URL has a movie parameter
     const hasMovieParam = checkUrlForMovie();
     if (!hasMovieParam) {
       renderHomePage(allMovies);
     }
     
-    // Attach search listener
     if (searchInput) {
       searchInput.addEventListener('input', applySearchFilter);
     }
     
-    // Handle browser navigation
     window.addEventListener('popstate', handlePopState);
     
-    // Logo click to go home
     const homeLink = document.getElementById('homeLink');
     if (homeLink) {
       homeLink.addEventListener('click', (e) => {
