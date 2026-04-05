@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Celestial Cinema | Premium Movie Reviews</title>
-  <!-- Google Fonts: Inter & Space Grotesk for premium typography -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -20,7 +19,6 @@
       scroll-behavior: smooth;
     }
 
-    /* custom scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
     }
@@ -33,7 +31,7 @@
       border-radius: 10px;
     }
 
-    /* glassmorphism navbar */
+    /* Navbar */
     .navbar {
       position: sticky;
       top: 0;
@@ -67,12 +65,13 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      text-decoration: none;
+      cursor: pointer;
     }
     .logo span {
       font-size: 1.9rem;
     }
 
-    /* search bar - glass style */
     .search-wrapper {
       background: rgba(30, 35, 55, 0.6);
       backdrop-filter: blur(8px);
@@ -106,14 +105,13 @@
       font-weight: 300;
     }
 
-    /* main container */
     .container {
       max-width: 1400px;
       margin: 2rem auto;
       padding: 0 2rem;
     }
 
-    /* movie grid */
+    /* Homepage Grid */
     .movies-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -121,7 +119,6 @@
       margin-top: 2rem;
     }
 
-    /* glassmorphic card */
     .movie-card {
       background: rgba(20, 25, 45, 0.45);
       backdrop-filter: blur(12px);
@@ -179,124 +176,114 @@
       overflow: hidden;
     }
 
-    /* detail modal / overlay */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(3, 5, 11, 0.85);
-      backdrop-filter: blur(18px);
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0.2s, opacity 0.25s ease;
-    }
-    .modal-overlay.active {
-      visibility: visible;
-      opacity: 1;
-    }
-    .modal-container {
-      max-width: 850px;
-      width: 90%;
-      background: rgba(18, 22, 40, 0.8);
-      backdrop-filter: blur(20px);
-      border-radius: 40px;
-      border: 1px solid rgba(139, 92, 246, 0.5);
+    /* DETAIL PAGE STYLES - Full Page Movie View */
+    .detail-container {
+      max-width: 1200px;
+      margin: 2rem auto;
       padding: 2rem;
-      position: relative;
-      animation: fadeSlideUp 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(139, 92, 246, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      padding: 0.7rem 1.5rem;
+      border-radius: 60px;
+      color: #c4b5fd;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 2rem;
+      text-decoration: none;
+    }
+
+    .back-button:hover {
+      background: rgba(139, 92, 246, 0.4);
+      transform: translateX(-5px);
+    }
+
+    .movie-detail-card {
+      background: rgba(18, 22, 40, 0.7);
+      backdrop-filter: blur(20px);
+      border-radius: 48px;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      overflow: hidden;
       box-shadow: 0 30px 50px rgba(0,0,0,0.5);
     }
-    @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .close-modal {
-      position: absolute;
-      top: 1.2rem;
-      right: 1.5rem;
-      font-size: 2rem;
-      cursor: pointer;
-      background: rgba(255,255,255,0.1);
-      width: 40px;
-      height: 40px;
-      border-radius: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
-    }
-    .close-modal:hover {
-      background: #8b5cf6;
-      transform: scale(1.05);
-    }
-    .modal-detail {
+
+    .detail-content {
       display: flex;
       flex-wrap: wrap;
-      gap: 2rem;
+      gap: 3rem;
+      padding: 3rem;
     }
-    .modal-poster {
-      flex: 1.2;
-      min-width: 180px;
+
+    .detail-poster {
+      flex: 1;
+      min-width: 280px;
     }
-    .modal-poster img {
+
+    .detail-poster img {
       width: 100%;
-      border-radius: 28px;
-      box-shadow: 0 20px 30px rgba(0,0,0,0.5);
-      border: 1px solid rgba(139,92,246,0.4);
+      border-radius: 32px;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.4);
+      border: 2px solid rgba(139, 92, 246, 0.3);
     }
-    .modal-info {
+
+    .detail-info {
       flex: 2;
     }
-    .modal-title {
-      font-size: 2.4rem;
+
+    .detail-title {
+      font-size: 3rem;
       font-weight: 700;
       background: linear-gradient(135deg, #f3e8ff, #c4b5fd);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
     }
-    .modal-description {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      margin: 1rem 0 2rem;
+
+    .detail-description {
+      font-size: 1.2rem;
+      line-height: 1.7;
       color: #e2e8ff;
+      margin: 1.5rem 0 2rem;
     }
-    .gdrive-btn {
+
+    .gdrive-btn-large {
       display: inline-flex;
       align-items: center;
       gap: 12px;
       background: linear-gradient(95deg, #7c3aed, #a855f7);
       border: none;
-      padding: 0.9rem 2rem;
+      padding: 1rem 2.5rem;
       border-radius: 60px;
       font-weight: 600;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       color: white;
       cursor: pointer;
       transition: all 0.2s;
       text-decoration: none;
       box-shadow: 0 8px 18px rgba(124,58,237,0.4);
     }
-    .gdrive-btn:hover {
-      transform: scale(1.02);
+
+    .gdrive-btn-large:hover {
+      transform: scale(1.05);
       background: linear-gradient(95deg, #8b5cf6, #c084fc);
-      box-shadow: 0 10px 24px rgba(139,92,246,0.6);
+      box-shadow: 0 12px 28px rgba(139,92,246,0.6);
     }
 
-    /* empty state */
     .empty-state {
       text-align: center;
       padding: 4rem;
@@ -307,7 +294,6 @@
       color: #b9c8ff;
     }
 
-    /* loader animation */
     .loader {
       text-align: center;
       padding: 3rem;
@@ -315,7 +301,6 @@
       color: #a78bfa;
     }
 
-    /* footer */
     .footer {
       margin-top: 4rem;
       text-align: center;
@@ -325,7 +310,7 @@
       color: #8592c0;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 768px) {
       .nav-container {
         flex-direction: column;
         align-items: stretch;
@@ -339,11 +324,12 @@
       .container {
         padding: 0 1rem;
       }
-      .modal-container {
+      .detail-content {
         padding: 1.5rem;
+        flex-direction: column;
       }
-      .modal-title {
-        font-size: 1.8rem;
+      .detail-title {
+        font-size: 2rem;
       }
     }
   </style>
@@ -352,19 +338,19 @@
 
 <nav class="navbar">
   <div class="nav-container">
-    <div class="logo">
+    <a href="index.html" class="logo" id="homeLink">
       <span>🎬</span> CELESTIAL CINEMA
-    </div>
-    <div class="search-wrapper">
+    </a>
+    <div class="search-wrapper" id="searchWrapper">
       <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" placeholder="Search movies... (title)">
     </div>
   </div>
 </nav>
 
-<main class="container">
-  <div id="moviesGridContainer" class="movies-grid">
-    <!-- dynamic grid will be injected -->
+<main id="mainContent">
+  <!-- Dynamic content will be injected here -->
+  <div class="container">
     <div class="loader">✨ loading cinematic experience ...</div>
   </div>
 </main>
@@ -373,37 +359,22 @@
   <p>© Celestial Cinema — premium reviews & curated watchlist. All data from imp.txt</p>
 </footer>
 
-<!-- Modal for detailed view -->
-<div id="movieModal" class="modal-overlay">
-  <div class="modal-container">
-    <div class="close-modal" id="closeModalBtn">✕</div>
-    <div id="modalContent" class="modal-detail">
-      <!-- dynamic modal content -->
-    </div>
-  </div>
-</div>
-
 <script>
   // ---------- GLOBAL STATE ----------
-  let allMovies = [];        // array of movie objects
-  let filteredMovies = [];   // after search filtering
+  let allMovies = [];
+  let currentPage = 'home'; // 'home' or 'detail'
+  let currentMovieId = null;
 
   // DOM elements
-  const gridContainer = document.getElementById('moviesGridContainer');
+  const mainContent = document.getElementById('mainContent');
   const searchInput = document.getElementById('searchInput');
-  const modalOverlay = document.getElementById('movieModal');
-  const modalContentDiv = document.getElementById('modalContent');
-  const closeModalBtn = document.getElementById('closeModalBtn');
+  const searchWrapper = document.getElementById('searchWrapper');
 
-  // Helper: parse imp.txt line by line respecting quotes and commas
-  // Format: "Movie Name" , "Short Description" , "Google Drive Link" , "Poster Image URL"
-  // We'll use a robust regex to extract quoted fields (handles spaces, commas inside quotes)
+  // Helper: parse imp.txt line by line
   function parseMovieLine(line) {
-    // Remove any leading/trailing whitespace
     line = line.trim();
     if (line === "") return null;
     
-    // Regex to match quoted strings: "([^"]*)"
     const regex = /"([^"]*)"/g;
     const matches = [...line.matchAll(regex)];
     if (matches.length >= 4) {
@@ -413,8 +384,6 @@
       const posterUrl = matches[3][1].trim();
       return { title, description, gdriveLink, posterUrl };
     } else {
-      // fallback: split by comma but handle basic quotes (legacy)
-      console.warn("Line not fully matched with regex, attempting fallback:", line);
       const parts = line.match(/"(.*?)"/g).map(p => p.replace(/"/g, '').trim());
       if(parts.length >= 4) {
         return { title: parts[0], description: parts[1], gdriveLink: parts[2], posterUrl: parts[3] };
@@ -437,92 +406,136 @@
         if (line.trim().length === 0) continue;
         const movie = parseMovieLine(line);
         if (movie) {
-          // optional: ensure poster URL is absolute or relative, but we keep as is
           movies.push(movie);
         }
-      }
-      if (movies.length === 0) {
-        console.warn("No movies parsed, check imp.txt format.");
-        gridContainer.innerHTML = `<div class="empty-state">⚠️ No movies found in imp.txt. Please check the format: "Name","Desc","DriveLink","PosterURL" each line.</div>`;
       }
       return movies;
     } catch (error) {
       console.error("Error loading imp.txt:", error);
-      gridContainer.innerHTML = `<div class="empty-state">❌ Failed to load imp.txt. Make sure file exists in same directory. <br> Error: ${error.message}</div>`;
       return [];
     }
   }
 
-  // render movie cards based on filteredMovies array
-  function renderCards(moviesArray) {
+  // Render homepage with grid
+  function renderHomePage(moviesArray) {
     if (!moviesArray.length) {
-      gridContainer.innerHTML = `<div class="empty-state">🎞️ No movies match your search. Try another title.</div>`;
-      return;
-    }
-    const cardsHTML = moviesArray.map((movie, idx) => {
-      // fallback poster if broken / empty
-      const posterImg = movie.posterUrl && movie.posterUrl.trim() !== "" ? movie.posterUrl : "https://via.placeholder.com/300x450?text=No+Poster";
-      return `
-        <div class="movie-card" data-movie-index="${idx}">
-          <div class="poster-wrapper">
-            <img class="movie-poster" src="${escapeHtml(posterImg)}" alt="${escapeHtml(movie.title)} poster" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster+Missing'">
-          </div>
-          <div class="card-content">
-            <h3 class="movie-title">${escapeHtml(movie.title)}</h3>
-            <p class="movie-desc">${escapeHtml(movie.description)}</p>
-          </div>
+      mainContent.innerHTML = `
+        <div class="container">
+          <div class="empty-state">🎞️ No movies found. Make sure imp.txt exists and has valid data.</div>
         </div>
       `;
-    }).join('');
-    gridContainer.innerHTML = cardsHTML;
-    
-    // attach click event listeners to each card (using data-movie-index based on original filteredMovies)
-    const cards = document.querySelectorAll('.movie-card');
-    cards.forEach((card, idx) => {
-      card.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const movieObj = moviesArray[idx];
-        if (movieObj) openMovieDetail(movieObj);
-      });
-    });
-  }
+      return;
+    }
 
-  // open detailed modal view
-  function openMovieDetail(movie) {
-    const safePoster = movie.posterUrl && movie.posterUrl.trim() !== "" ? movie.posterUrl : "https://via.placeholder.com/300x450?text=No+Poster";
-    modalContentDiv.innerHTML = `
-      <div class="modal-poster">
-        <img src="${escapeHtml(safePoster)}" alt="${escapeHtml(movie.title)} poster" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster+Missing'">
+    const cardsHTML = moviesArray.map((movie, idx) => `
+      <div class="movie-card" data-movie-idx="${idx}">
+        <div class="poster-wrapper">
+          <img class="movie-poster" src="${escapeHtml(movie.posterUrl)}" alt="${escapeHtml(movie.title)} poster" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=Poster+Missing'">
+        </div>
+        <div class="card-content">
+          <h3 class="movie-title">${escapeHtml(movie.title)}</h3>
+          <p class="movie-desc">${escapeHtml(movie.description)}</p>
+        </div>
       </div>
-      <div class="modal-info">
-        <h2 class="modal-title">${escapeHtml(movie.title)}</h2>
-        <p class="modal-description">${escapeHtml(movie.description)}</p>
-        <a href="${escapeHtml(movie.gdriveLink)}" target="_blank" rel="noopener noreferrer" class="gdrive-btn">
-          🎞️ Watch / Download on Google Drive
-        </a>
+    `).join('');
+
+    mainContent.innerHTML = `
+      <div class="container">
+        <div class="movies-grid" id="moviesGrid">
+          ${cardsHTML}
+        </div>
       </div>
     `;
-    modalOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+
+    // Attach click handlers to navigate to detail page
+    const cards = document.querySelectorAll('.movie-card');
+    cards.forEach((card, idx) => {
+      card.addEventListener('click', () => {
+        const movie = moviesArray[idx];
+        navigateToDetail(movie, idx);
+      });
+    });
+
+    // Show/hide search bar based on page
+    if (searchWrapper) searchWrapper.style.display = 'flex';
   }
 
-  function closeModal() {
-    modalOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  // filter movies based on search input (case-insensitive, title match)
-  function applySearchFilter() {
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) {
-      filteredMovies = [...allMovies];
-    } else {
-      filteredMovies = allMovies.filter(movie => movie.title.toLowerCase().includes(query));
+  // Navigate to full movie detail page (replaces homepage content)
+  function navigateToDetail(movie, movieId) {
+    currentMovieId = movieId;
+    currentPage = 'detail';
+    
+    // Hide search bar on detail page
+    if (searchWrapper) searchWrapper.style.display = 'none';
+    
+    const safePoster = movie.posterUrl && movie.posterUrl.trim() !== "" ? movie.posterUrl : "https://via.placeholder.com/500x750?text=Poster+Missing";
+    
+    mainContent.innerHTML = `
+      <div class="detail-container">
+        <button class="back-button" id="backToHomeBtn">
+          ← Back to All Movies
+        </button>
+        <div class="movie-detail-card">
+          <div class="detail-content">
+            <div class="detail-poster">
+              <img src="${escapeHtml(safePoster)}" alt="${escapeHtml(movie.title)} poster" onerror="this.onerror=null;this.src='https://via.placeholder.com/500x750?text=Poster+Missing'">
+            </div>
+            <div class="detail-info">
+              <h1 class="detail-title">${escapeHtml(movie.title)}</h1>
+              <p class="detail-description">${escapeHtml(movie.description)}</p>
+              <a href="${escapeHtml(movie.gdriveLink)}" target="_blank" rel="noopener noreferrer" class="gdrive-btn-large">
+                🎬 Watch / Download on Google Drive
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Add back button functionality
+    const backBtn = document.getElementById('backToHomeBtn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        navigateToHome();
+      });
     }
-    renderCards(filteredMovies);
+    
+    // Update URL without reload (optional)
+    window.history.pushState({ page: 'detail', movieId: movieId }, '', `?movie=${encodeURIComponent(movie.title)}`);
   }
 
-  // simple escape to avoid XSS
+  // Navigate back to homepage
+  function navigateToHome() {
+    currentPage = 'home';
+    currentMovieId = null;
+    
+    // Show search bar again
+    if (searchWrapper) searchWrapper.style.display = 'flex';
+    
+    // Clear search input
+    if (searchInput) searchInput.value = '';
+    
+    // Re-render homepage with current filtered movies
+    renderHomePage(allMovies);
+    
+    // Update URL
+    window.history.pushState({ page: 'home' }, '', window.location.pathname);
+  }
+
+  // Filter movies based on search (only works on homepage)
+  function applySearchFilter() {
+    if (currentPage !== 'home') return;
+    
+    const query = searchInput.value.trim().toLowerCase();
+    let filtered;
+    if (!query) {
+      filtered = [...allMovies];
+    } else {
+      filtered = allMovies.filter(movie => movie.title.toLowerCase().includes(query));
+    }
+    renderHomePage(filtered);
+  }
+
   function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
@@ -530,41 +543,75 @@
       if (m === '<') return '&lt;';
       if (m === '>') return '&gt;';
       return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
     });
+  }
+
+  // Handle browser back/forward buttons
+  function handlePopState(event) {
+    if (event.state && event.state.page === 'detail') {
+      // If we have a stored movie, but we need to restore detail view
+      // For simplicity, reload from current movieId
+      if (currentMovieId !== null && allMovies[currentMovieId]) {
+        navigateToDetail(allMovies[currentMovieId], currentMovieId);
+      } else {
+        navigateToHome();
+      }
+    } else {
+      navigateToHome();
+    }
+  }
+
+  // Check URL params on load
+  function checkUrlForMovie() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieTitle = urlParams.get('movie');
+    if (movieTitle && allMovies.length > 0) {
+      const movieIndex = allMovies.findIndex(m => m.title.toLowerCase() === movieTitle.toLowerCase());
+      if (movieIndex !== -1) {
+        navigateToDetail(allMovies[movieIndex], movieIndex);
+        return true;
+      }
+    }
+    return false;
   }
 
   // ---------- INITIALIZE APP ----------
   async function init() {
-    // load movies from text file
     const movies = await loadMoviesFromFile();
     if (movies.length === 0) {
-      // provide a fallback example set if file missing? But spec says strictly load from imp.txt.
-      // We'll just show error, but optionally we can embed 8-12 entries in imp.txt (as required).
-      // The error is clear. For better UX, we show an empty state.
       allMovies = [];
-      filteredMovies = [];
-      renderCards([]);
-    } else {
-      allMovies = movies;
-      filteredMovies = [...allMovies];
-      renderCards(filteredMovies);
+      mainContent.innerHTML = `
+        <div class="container">
+          <div class="empty-state">❌ Failed to load imp.txt. Make sure file exists in same directory with format: "Name","Desc","DriveLink","PosterURL"</div>
+        </div>
+      `;
+      return;
     }
     
-    // attach search listener
-    searchInput.addEventListener('input', applySearchFilter);
+    allMovies = movies;
     
-    // modal close events
-    closeModalBtn.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-        closeModal();
-      }
-    });
+    // Check if URL has a movie parameter
+    const hasMovieParam = checkUrlForMovie();
+    if (!hasMovieParam) {
+      renderHomePage(allMovies);
+    }
+    
+    // Attach search listener
+    if (searchInput) {
+      searchInput.addEventListener('input', applySearchFilter);
+    }
+    
+    // Handle browser navigation
+    window.addEventListener('popstate', handlePopState);
+    
+    // Logo click to go home
+    const homeLink = document.getElementById('homeLink');
+    if (homeLink) {
+      homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateToHome();
+      });
+    }
   }
 
   init();
